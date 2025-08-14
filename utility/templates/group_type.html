@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Group Type List</title>
+    <link rel="stylesheet" href="{% static "css/utility.css" %}">
+</head>
+<body>
+
+    <h2>لیست گروه کالا</h2>
+
+    {% if object_list %}
+    <table>
+        <thead>
+            <tr>
+                <th>Delete</th>
+                <th>#</th>
+                <th>نام گروه (Edit)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for group in object_list %}
+            <tr>
+                <td>
+                    <form method="post" action="{% url 'group-types-delete' group.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-button" onclick="return confirm('حذف این گروه؟');">×</button>
+                    </form>
+                </td>
+                <td>{{ forloop.counter }}</td>
+                <td>
+                    <form method="post" action="{% url 'group-types-update' group.id %}">
+                        {% csrf_token %}
+                        <input type="text" name="group_name" value="{{ group.group_name }}" class="edit-input">
+                        <button type="submit" class="edit-button">Save</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>گروهی یافت نشد.</p>
+    {% endif %}
+
+    <hr>
+
+    <h2>تعریف گروه کالا جدید</h2>
+
+    <form method="post" action="{% url 'group-types' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="button">تعریف گروه</button>
+    </form>
+    
+    <a href="{% url 'main' %}" class="button">صفحه قبل</a>
+
+</body>
+</html>

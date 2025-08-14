@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Tajhiz Salamat Eram</title>
+    <link rel="stylesheet" href="{% static "css/main&master.css" %}">
+    </style>
+</head>
+<body>
+    <div>
+        <h1> Tajhiz Salamat Eram </h1>
+
+        {% block content %}
+        <a href={% url "main" %} class="button">اطلاعات اصلی</a>
+        {% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Warehouse List</title>
+    <link rel="stylesheet" href="{% static "css/warehouses.css" %}">
+    <style>
+        .edit-input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 4px 6px;
+            font-size: 1em;
+        }
+        .edit-button, .delete-button {
+            padding: 4px 8px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+        }
+        .edit-button {
+            background-color: #27ae60;
+            color: white;
+        }
+        .delete-button {
+            background-color: #e74c3c;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<h2>لیست انبارها</h2>
+
+{% if object_list %}
+<table>
+    <thead>
+        <tr>
+            <th>Delete</th>
+            <th>#</th>
+            <th>کد انبار (Edit)</th>
+            <th>نام انبار (Edit)</th>
+            <th>شماره تلفن (Edit)</th>
+            <th>آدرس (Edit)</th>
+            <th>Save</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for warehouse in object_list %}
+        <tr>
+            <td>
+                <form method="post" action="{% url 'warehouse-delete' warehouse.warehouse_code %}">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-button" onclick="return confirm('حذف این انبار؟');">×</button>
+                </form>
+            </td>
+            <td>{{ forloop.counter }}</td>
+            <td>
+                <form method="post" action="{% url 'warehouse-update' warehouse.warehouse_code %}">
+                    {% csrf_token %}
+                    <input type="text" name="warehouse_code" value="{{ warehouse.warehouse_code }}" class="edit-input">
+            </td>
+            <td>
+                    <input type="text" name="warehouse_name" value="{{ warehouse.warehouse_name }}" class="edit-input">
+            </td>
+            <td>
+                    <input type="text" name="phone_number" value="{{ warehouse.phone_number }}" class="edit-input">
+            </td>
+            <td>
+                    <input type="text" name="address" value="{{ warehouse.address }}" class="edit-input">
+            </td>
+            <td>
+                    <button type="submit" class="edit-button">Save</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <p>انباری یافت نشد.</p>
+{% endif %}
+
+<hr>
+
+<h2>تعریف انبار جدید</h2>
+<form method="post" action="{% url 'warehouses' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="button">تعریف انبار</button>
+</form>
+
+<a href="{% url 'main' %}" class="button" style="margin-top:20px; display:inline-block;">صفحه قبل</a>
+
+</body>
+</html>

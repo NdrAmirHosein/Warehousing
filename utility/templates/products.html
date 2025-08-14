@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Products</title>
+    <link rel="stylesheet" href="{% static "css/product.css" %}">
+</head>
+<body>
+
+<h2>لیست کالاها</h2>
+
+{% if object_list %}
+<table>
+    <thead>
+        <tr>
+            <th>حذف</th>
+            <th>#</th>
+            <th>کد</th>
+            <th>نام</th>
+            <th>کد اختصاری</th>
+            <th>واحد</th>
+            <th>گروه</th>
+            <th>مکان</th>
+            <th>قیمت خرید</th>
+            <th>قیمت فروش</th>
+            <th>تاریخ ثبت</th>
+            <th>نوع مصرف</th>
+            <th>توضیحات</th>
+            <th>ذخیره</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in object_list %}
+        <tr>
+            <!-- Delete button -->
+            <td>
+                <form method="post" action="{% url 'product-delete' product.product_code %}">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-button" onclick="return confirm('حذف این کالا؟');">×</button>
+                </form>
+            </td>
+
+            <!-- Row number -->
+            <td>{{ forloop.counter }}</td>
+
+            <!-- Editable fields -->
+            <form method="post" action="{% url 'product-delete' product.pk %}">
+                {% csrf_token %}
+                <td><input type="text" name="product_code" value="{{ product.product_code }}"></td>
+                <td><input type="text" name="product_name" value="{{ product.product_name }}"></td>
+                <td><input type="text" name="product_abbreviation_code" value="{{ product.product_abbreviation_code }}"></td>
+                <td><input type="text" name="product_unit" value="{{ product.product_unit }}"></td>
+                <td><input type="text" name="product_group" value="{{ product.product_group }}"></td>
+                <td><input type="text" name="product_place" value="{{ product.product_place }}"></td>
+                <td><input type="number" step="0.01" name="buy_price" value="{{ product.buy_price }}"></td>
+                <td><input type="number" step="0.01" name="sell_price" value="{{ product.sell_price }}"></td>
+                <td><input type="date" name="registration_date" value="{{ product.registration_date|date:'Y-m-d' }}"></td>
+                <td><input type="text" name="usage_type" value="{{ product.usage_type }}"></td>
+                <td><input type="text" name="description" value="{{ product.description }}"></td>
+                <td><button type="submit" class="edit-button">Save</button></td>
+            </form>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <p>داده ای یافت نشد.</p>
+{% endif %}
+
+<hr>
+
+<h2>تعریف کالای جدید</h2>
+<form method="post">
+    {% csrf_token %}
+    <div class="form-wrapper">
+        <div class="form-box">
+            <h3>Product Info</h3>
+            {{ form.product_code.label_tag }} {{ form.product_code }}
+            {{ form.product_name.label_tag }} {{ form.product_name }}
+            {{ form.product_abbreviation_code.label_tag }} {{ form.product_abbreviation_code }}
+            {{ form.product_place.label_tag }} {{ form.product_place }}
+            {{ form.product_group.label_tag }} {{ form.product_group }}
+            {{ form.product_unit.label_tag }} {{ form.product_unit }}
+        </div>
+
+        <div class="form-box">
+            <h3>Pricing & Details</h3>
+            {{ form.buy_price.label_tag }} {{ form.buy_price }}
+            {{ form.sell_price.label_tag }} {{ form.sell_price }}
+            {{ form.registration_date.label_tag }} {{ form.registration_date }}
+            {{ form.usage_type.label_tag }} {{ form.usage_type }}
+            {{ form.description.label_tag }} {{ form.description }}
+        </div>
+    </div>
+    <button type="submit">تعریف کالا</button>
+</form>
+
+<a href="{% url 'main' %}" class="button">صفحه قبل</a>
+
+</body>
+</html>

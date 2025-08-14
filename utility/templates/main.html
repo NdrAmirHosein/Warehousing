@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<!-- templates/home.html -->
+
+
+{% extends "master.html" %}
+    {% block content %}
+
+    <a href="utilities/" class="button">واحد کالا</a>
+    <a href="warehouses/" class="button">انبار</a>
+    <a href="{% url 'group-types' %}" class="button">نوع گروه</a>
+    <a href="products/" class="button">کالاها</a>
+    <a href="usagetype/" class="button">نوع مصرف</a>
+    <a href="{% url 'master-page' %}" class="button">خانه</a>
+    {% endblock %}

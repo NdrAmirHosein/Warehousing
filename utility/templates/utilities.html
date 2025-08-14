@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Utility List</title>
+    <link rel="stylesheet" href="{% static "css/utility.css" %}">
+
+</head>
+<body>
+
+    <h2>لیست واحد ها</h2>
+
+    {% if object_list %}
+    <table>
+        <thead>
+            <tr>
+                <th>Delete</th>
+                <th>#</th>
+                <th>نام واحد (Edit)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for utility in object_list %}
+            <tr>
+                <td>
+                    <form method="post" action="{% url 'delete-utility' utility.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-button" onclick="return confirm('حذف این واحد؟');">×</button>
+                    </form>
+                </td>
+                <td>{{ forloop.counter }}</td>
+                <td>
+                    <form method="post" action="{% url 'utility-update' utility.id %}">
+                        {% csrf_token %}
+                        <input type="text" name="utility_name" value="{{ utility.utility_name }}" class="edit-input">
+                        <button type="submit" class="edit-button">Save</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No utilities found.</p>
+    {% endif %}
+
+    <hr>
+
+    <h2>تعریف واحد جدید</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="button">ساخت واحد</button>
+    </form>
+    
+    <a href="{% url 'main' %}" class="button">صفحه قبل</a>
+
+</body>
+
+</html>
