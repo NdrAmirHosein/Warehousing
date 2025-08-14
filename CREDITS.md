@@ -9,7 +9,7 @@ for their internal warehousing management system.
 
 ## Special Thanks
 - **[Tajhiz Salamat Eram]** – for the opportunity and initial requirements.
-- **Mr Najafi** for hiring me as an intern in there company.
+- **Mr Najafi** who hired me as an intern in there company.
 - **Django** and its amazing community.
 - **PostgreSQL** for a reliable database backend.
 
